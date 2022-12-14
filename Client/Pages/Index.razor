@@ -1,0 +1,82 @@
+﻿@page "/"
+@inject IDealershipService DealershipService
+
+<PageTitle>Dealership overview</PageTitle>
+<h3>Customers</h3>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var customer in customers)
+        {
+            <tr>
+                <td>@customer.Id</td>
+                <td>@customer.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2>customer on specific street</h2>
+<label>
+    Name
+    <input @bind="nameInput" />
+</label>
+<button @onclick="HandleSubmit">
+    Find customer
+</button>
+<p>@specificCustomer</p>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var customer in customers)
+        {
+            <tr>
+                <td>@customer.Id</td>
+                <td>@customer.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3>Cars</h3>
+
+<h3>Car Purchases</h3>
+
+<h3>Addresses</h3>
+
+@code {
+    public List<Customer> customers = new List<Customer>();
+    public List<SalesPerson> salesPersons = new List<SalesPerson>();
+    public Customer CustomerbyName = new Customer();
+
+    private string? nameInput;
+    private string? specificCustomer;
+
+    protected override async Task OnInitializedAsync()
+    {
+        //await CustomerService.GetAllCustomers();
+        customers = await DealershipService.GetAllCustomersWithSpecificName("Jeppe");
+        //salesPersons = await DealershipService.GetAllSalesPersons();
+
+    }
+
+    async Task HandleSubmit()
+    {
+        CustomerbyName = await DealershipService.GetFirstCustomer();
+        specificCustomer = CustomerbyName.Name;
+    }
+}
