@@ -10,14 +10,22 @@
         <tr>
             <th>Id</th>
             <th>Name</th>
+            <th>Surname</th>
+            <th>Age</th>
+            <th>AddressId</th>
+            <th>Created</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var customer in customers)
+        @foreach (var customer in DealershipService.Customers)
         {
             <tr>
                 <td>@customer.Id</td>
                 <td>@customer.Name</td>
+                    <td>@customer.Surname</td>
+                <td>@customer.Age</td>
+                    <td>@customer.AddressId</td>
+                <td>@customer.Created</td>
             </tr>
         }
     </tbody>
@@ -68,7 +76,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        //await CustomerService.GetAllCustomers();
+        await DealershipService.GetAllCustomers();
         customers = await DealershipService.GetAllCustomersWithSpecificName("Jeppe");
         //salesPersons = await DealershipService.GetAllSalesPersons();
 
